@@ -5,7 +5,7 @@ j.n.chen@sheffield.ac.uk
 ==== Simple Cooperative Multitasking ====
 
  - This is a light-weighted solution for multi-tasking using one thread. 
- - Stack for each process are still in the main stack of the program, but with some offset. 
+ - The stack for each process still reside in the main stack, but with some offset. 
  - See "cmt/debug.c" for some examples.
  - Build debug.c to test. For example: gcc debug.c
 
