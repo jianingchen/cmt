@@ -10,6 +10,7 @@ j.n.chen@sheffield.ac.uk
 
  - Process function example:
 
+    ...
     void ProcessFunctionA(void*data){
         // no large local variables. (limited by stack size)
         // int data[32]; - OK
@@ -27,38 +28,29 @@ j.n.chen@sheffield.ac.uk
         }
         
     }
+    ...
 
  - Lauch a process:
     
-    ...(...){
-        
-        ...
-        
-        cmt_launch_process(ProcessFunctionA,NULL);
-        
-        ...
-    }
+    ...
+    cmt_launch_process(ProcessFunctionA,NULL);
+    ...
 
 
 
  - Main loop example:
     
-    ...(...){
+    ...
+    while(1){
         
-        ...
+        // (other code)
         
-        while(1){
-            
-            ...
-            
-            cmt_main_routine();
-            cmt_process_timers(time_between_iteration);
-            
-            ...
-            
-            time_delay(time_between_iteration);// any delay method (if needed)
-        }
+        cmt_main_routine();
+        cmt_process_timers(time_between_iteration);
         
-        ...
+        // (other code)
+        
+        time_delay(time_between_iteration);// any delay method (if needed)
     }
-
+    ...
+    
