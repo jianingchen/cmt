@@ -55,7 +55,7 @@ void Process_LoopB(void*data){
         
         printf("[B: %d]",i);
         
-        cmt_wait(300);
+        cmt_wait(300);// wait and jump to process another process.
         
     }
     
@@ -117,7 +117,7 @@ void Process_LoopEach(void*data){
             printf("[%s]",(char*)data);
         }
         
-        cmt_cooperate();// this is an atomic wait. 
+        cmt_cooperate();// this is an atomic wait 
     }
     
     printf("[W: end]");
@@ -184,14 +184,13 @@ int main(int argc,char*argv[]){
     cmt_initialize(&typical_setting);
     
     printf("\nCMT Initialized");
-    printf("\n%d",sizeof(jmp_buf));
     
-    cmt_launch_process(Process_LoopEach,strA);
+    cmt_launch_process(Process_LoopEach,strA);// two process using same function with different arguments
     cmt_launch_process(Process_LoopEach,strB);
     
     cmt_launch_process(routineX,NULL);
     cmt_launch_process(routineY,NULL);
-    cmt_launch_process_delay(routineZ,NULL,5000);
+    cmt_launch_process_delay(routineZ,NULL,5000);// delayed launch
     
     cmt_launch_process(Process_LoopA,NULL);
     cmt_launch_process(Process_LoopB,NULL);
