@@ -3,7 +3,7 @@
 Jianing Chen
 j.n.chen@sheffield.ac.uk
 
-==== Minimum Cooperative Multitasking Library ====
+==== Simple Cooperative Multitasking Library ====
 
 **/
 
@@ -88,7 +88,7 @@ void cmt_cooperate(){
 }
 
 void cmt_wait(cmt_time time){
-    cmt_current_process->wait_timer += time;
+    cmt_current_process->wait_timer += time;// use plus to merge the residue of last countdown
     cmt_cooperate();
 }
 

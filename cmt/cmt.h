@@ -6,8 +6,8 @@ j.n.chen@sheffield.ac.uk
 ==== Simple Cooperative Multitasking ====
 
 **/
-#ifndef MINIMUM_COOPERATIVE_MULTITASKING
-#define MINIMUM_COOPERATIVE_MULTITASKING
+#ifndef SIMPLE_COOPERATIVE_MULTITASKING
+#define SIMPLE_COOPERATIVE_MULTITASKING
 
 #include <stdlib.h>
 #include <setjmp.h>
