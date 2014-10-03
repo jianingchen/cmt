@@ -2,8 +2,23 @@
 #include "cmt.c"
 
 #include <stdio.h>
+
+#ifdef _WIN32
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+void time_delay(int ms){
+    Sleep(ms);
+}
+
+#else
+
+#include <unistd.h>
+void time_delay(int ms){
+    usleep(ms*1000);
+}
+
+#endif
 
 int stack_overflow(){
     int waste[8000];
@@ -11,7 +26,7 @@ int stack_overflow(){
     return waste[7999];
 }
 
-void routineA(void*data){
+void Process_LoopA(void*data){
     int i;
     
     printf("<A: %p>",&i);
@@ -31,7 +46,7 @@ void routineA(void*data){
 }
 
 
-void routineB(void*data){
+void Process_LoopB(void*data){
     int i;
     
     printf("<B: %p>",&i);
@@ -48,7 +63,7 @@ void routineB(void*data){
     
 }
 
-void routineD(void*data){
+void Process_LoopC(void*data){
     int i;
     
     printf("<D: %p>",&i);
@@ -58,7 +73,7 @@ void routineD(void*data){
         printf("[D: %d]",i);
         
         if(i==4){
-            cmt_launch_process(routineA,NULL);
+            cmt_launch_process(Process_LoopA,NULL);
         }
         
         
@@ -70,7 +85,7 @@ void routineD(void*data){
     
 }
 
-void routineC(void*data){
+void Process_LoopD(void*data){
     int i;
     
     printf("<C: %p>",&i);
@@ -80,7 +95,7 @@ void routineC(void*data){
         printf("[C: %d]",i);
         
         if(i==89){
-            cmt_launch_process(routineD,NULL);
+            cmt_launch_process(Process_LoopD,NULL);
         }
         
         cmt_wait(100);
@@ -91,7 +106,7 @@ void routineC(void*data){
     
 }
 
-void routineW(void*data){
+void Process_LoopEach(void*data){
     int i;
     
     printf("<W: %p>",&i);
@@ -102,7 +117,7 @@ void routineW(void*data){
             printf("[%s]",(char*)data);
         }
         
-        cmt_cooperate();
+        cmt_cooperate();// this is an atomic wait. 
     }
     
     printf("[W: end]");
@@ -120,14 +135,14 @@ void routineX(void*data){
         
         printf("[X: %d]",i++);
         
-        cmt_wait(100);
+        cmt_wait(120);
         
     }
     
     printf("[X: end]");
     
 }
-// "i" in X and Y should be increased in a ratio of 3:2
+// "i" in X and Y should be increased in a ratio of 5:4
 void routineY(void*data){
     int i;
     
@@ -156,7 +171,7 @@ void routineZ(void*data){
 }
 
 int main(int argc,char*argv[]){
-    const unsigned int STEP_SIZE_MS = 100;
+    const unsigned int STEP_SIZE_MS = 50;
     char strA[] = "Hello";
     char strB[] = "World";
     int i;
@@ -171,16 +186,16 @@ int main(int argc,char*argv[]){
     printf("\nCMT Initialized");
     printf("\n%d",sizeof(jmp_buf));
     
-    cmt_launch_process(routineW,strA);
-    cmt_launch_process(routineW,strB);
+    cmt_launch_process(Process_LoopEach,strA);
+    cmt_launch_process(Process_LoopEach,strB);
     
     cmt_launch_process(routineX,NULL);
     cmt_launch_process(routineY,NULL);
     cmt_launch_process_delay(routineZ,NULL,5000);
     
-    cmt_launch_process(routineA,NULL);
-    cmt_launch_process(routineB,NULL);
-    cmt_launch_process(routineC,NULL);
+    cmt_launch_process(Process_LoopA,NULL);
+    cmt_launch_process(Process_LoopB,NULL);
+    cmt_launch_process(Process_LoopC,NULL);
     
     i = 0;
     while(i<500){
@@ -192,7 +207,7 @@ int main(int argc,char*argv[]){
         
         i++;
         
-        Sleep(STEP_SIZE_MS);
+        time_delay(STEP_SIZE_MS);
     }
     
     cmt_terminate();

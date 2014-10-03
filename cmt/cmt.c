@@ -94,7 +94,7 @@ void cmt_wait(cmt_time time){
 
 static void cmt_shift_current_process(const int stack_offset){
     #ifdef _MSC_VER
-    char *pad = (char*)_alloca(stack_offset);// will still be in stack
+    char *pad = (char*)_alloca(stack_offset);// for vc compiler
     #else
     char pad[stack_offset];// use dynamic amount of stack
     #endif
