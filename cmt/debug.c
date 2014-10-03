@@ -185,7 +185,7 @@ int main(int argc,char*argv[]){
     
     printf("\nCMT Initialized");
     
-    cmt_launch_process(Process_LoopEach,strA);// two process using same function with different arguments
+    cmt_launch_process(Process_LoopEach,strA);// two process using the same function with different arguments
     cmt_launch_process(Process_LoopEach,strB);
     
     cmt_launch_process(routineX,NULL);
