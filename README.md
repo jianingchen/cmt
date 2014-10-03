@@ -4,7 +4,7 @@ j.n.chen@sheffield.ac.uk
 
 ==== Simple Cooperative Multitasking ====
 
- - This is a light-weighted solution for multi-tasking in one thread.
+ - This is a light-weighted solution for multi-tasking using one thread.
  - See "cmt/debug.c" for some examples.
  - Build debug.c to test. For example: gcc debug.c
 
