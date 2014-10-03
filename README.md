@@ -1,4 +1,6 @@
 
+³Â¼ÎÄþ
+
 Jianing Chen
 
 j.n.chen@sheffield.ac.uk
@@ -11,7 +13,7 @@ j.n.chen@sheffield.ac.uk
  
  - See "cmt/debug.c" for some examples.
  
- - Build debug.c to test. For example: gcc debug.c
+ - Build "cmt/debug.c" to test. For example: >>gcc debug.c
 
  - Initialize with:
     ```
