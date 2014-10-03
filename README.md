@@ -23,7 +23,7 @@ j.n.chen@sheffield.ac.uk
         // int buffer[1000]; - Avoid
         // int *buffer = (int*)malloc(sizeof(int)*1000); - OK
         
-        //... code here ...
+        //... any other code ...
         
         // delay like this:
         cmt_wait(500);
@@ -51,12 +51,12 @@ j.n.chen@sheffield.ac.uk
     ```
     while(1){
         
-        ...// (other code)
+        //... any other code ...
         
         cmt_main_routine();
         cmt_process_timers(time_between_iteration);
         
-        ...// (other code)
+        //... any other code ...
         
         time_delay(time_between_iteration);// any delay method (if needed)
     }
