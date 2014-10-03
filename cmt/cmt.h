@@ -3,7 +3,7 @@
 Jianing Chen
 j.n.chen@sheffield.ac.uk
 
-==== Minimum Cooperative Multitasking Library ====
+==== Simple Cooperative Multitasking ====
 
 process function example:
 
@@ -69,7 +69,7 @@ extern "C" {
 typedef struct CMT_INI{
     unsigned int MaxNumberOfProcess;
     unsigned int ProcessStackSzie;
-    unsigned int MainStackReservation;
+    unsigned int ProcessStackOffset;
 } cmt_ini;
 
 typedef void (*cmt_function)(void*);

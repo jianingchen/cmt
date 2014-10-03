@@ -18,9 +18,9 @@ typedef struct CMTS{
 } cmts;
 
 // cmt system context
-unsigned int CMT_MAX_N_PROCESS;
-unsigned int CMT_PROCESS_STACK_SIZE;
-unsigned int CMT_MAIN_STACK_RESERVATION_SIZE;
+unsigned int cmt_max_number_of_process;
+unsigned int cmt_process_stack_size;
+unsigned int cmt_process_stack_offset;
 jmp_buf cmt_main_buffer;
 int cmt_number_of_process;
 cmts *cmt_process_list;
@@ -32,18 +32,18 @@ void cmt_initialize(const cmt_ini*setting){
     cmts *p;
     
     if(setting){
-        CMT_MAX_N_PROCESS = setting->MaxNumberOfProcess;
-        CMT_PROCESS_STACK_SIZE = setting->ProcessStackSzie;
-        CMT_MAIN_STACK_RESERVATION_SIZE = setting->MainStackReservation;
+        cmt_max_number_of_process = setting->MaxNumberOfProcess;
+        cmt_process_stack_size = setting->ProcessStackSzie;
+        cmt_process_stack_offset = setting->ProcessStackOffset;
     }else{
-        CMT_MAX_N_PROCESS = 32;
-        CMT_PROCESS_STACK_SIZE = 8192;
-        CMT_MAIN_STACK_RESERVATION_SIZE = 32768;
+        cmt_max_number_of_process = 32;
+        cmt_process_stack_size = 8192;
+        cmt_process_stack_offset = 32768;
     }
     
-    cmt_process_list = (cmts*)malloc(sizeof(cmts)*CMT_MAX_N_PROCESS);
+    cmt_process_list = (cmts*)malloc(sizeof(cmts)*cmt_max_number_of_process);
     
-    for(i=0;i<CMT_MAX_N_PROCESS;i++){
+    for(i=0;i<cmt_max_number_of_process;i++){
         p = cmt_process_list + i;
         p->state = CMT_STATE_VACANT;
         p->wait_timer = 0;
@@ -63,7 +63,7 @@ int cmt_launch_process_delay(cmt_function f,void*f_data,cmt_time time){
         return -1;
     }
     
-    for(i=0;i<CMT_MAX_N_PROCESS;i++){
+    for(i=0;i<cmt_max_number_of_process;i++){
         p = cmt_process_list + i;
         if(p->state==CMT_STATE_VACANT){
             p->state = CMT_STATE_LAUNCH;
@@ -115,7 +115,7 @@ void cmt_main_routine(){
     int stack_offset;
     cmts *p;
     
-    for(i=0;i<CMT_MAX_N_PROCESS;i++){
+    for(i=0;i<cmt_max_number_of_process;i++){
         
         cmt_current_process_index = i;
         p = cmt_process_list + i;
@@ -132,7 +132,7 @@ void cmt_main_routine(){
                 cmt_number_of_process++;
                 
                 cmt_current_process = p;
-                stack_offset = CMT_MAIN_STACK_RESERVATION_SIZE + CMT_PROCESS_STACK_SIZE*i;
+                stack_offset = cmt_process_stack_offset + cmt_process_stack_size*i;
                 cmt_shift_current_process(stack_offset);
                 
             }
@@ -154,7 +154,7 @@ void cmt_main_routine(){
 
 void cmt_process_timers(cmt_time time_elapsed){
     int i;
-    for(i=0;i<CMT_MAX_N_PROCESS;i++){
+    for(i=0;i<cmt_max_number_of_process;i++){
         if(cmt_process_list[i].wait_timer > 0){
             cmt_process_list[i].wait_timer -= time_elapsed;
         }
