@@ -3,11 +3,16 @@
 Jianing Chen
 j.n.chen@sheffield.ac.uk
 
-==== Simple Cooperative Multitasking Library ====
+==== Simple Cooperative Multitasking ====
 
 **/
 
 #include "cmt.h"
+
+#define CMT_STATE_VACANT    0
+#define CMT_STATE_LAUNCH    1
+#define CMT_STATE_PAUSE     2
+#define CMT_STATE_RUNNING   3
 
 typedef struct CMTS{
     int state;

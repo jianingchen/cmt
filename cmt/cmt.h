@@ -9,18 +9,13 @@ j.n.chen@sheffield.ac.uk
 #ifndef SIMPLE_COOPERATIVE_MULTITASKING
 #define SIMPLE_COOPERATIVE_MULTITASKING
 
-#include <stdlib.h>
-#include <setjmp.h>
-
-#define CMT_STATE_VACANT    0
-#define CMT_STATE_LAUNCH    1
-#define CMT_STATE_PAUSE     2
-#define CMT_STATE_RUNNING   3
-
 #ifdef	__cplusplus
 extern "C" {
 #endif
 
+
+#include <stdlib.h>
+#include <setjmp.h>
 
 
 typedef struct CMT_INI{
@@ -30,7 +25,7 @@ typedef struct CMT_INI{
 } cmt_ini;
 
 typedef void (*cmt_function)(void*);
-typedef signed long cmt_timer;// must be signed, do not change.
+typedef long cmt_timer;
 typedef long cmt_time;
 
 
